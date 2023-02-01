@@ -19,8 +19,8 @@ public class Exam04 {
 			int selectNo = Integer.parseInt(scanner.nextLine());
 			
 			if(selectNo == 1) {	
-				int studnetNo = Integer.parseInt(scanner.nextLine());
-				scores = new int [studnetNo];
+				studentNum = Integer.parseInt(scanner.nextLine());
+				scores = new int [studentNum];
 				System.out.print("학생수> ");
 				System.out.println(scores.length);
 			} else if(selectNo == 2) {
