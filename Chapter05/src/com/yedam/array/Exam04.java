@@ -8,7 +8,7 @@ public class Exam04 {
 		
 		boolean run =true;
 		int studentNum = 0;
-		int [] scores = null;
+			int [] scores = null;
 		Scanner scanner = new Scanner(System.in);
 		
 		while(run) {

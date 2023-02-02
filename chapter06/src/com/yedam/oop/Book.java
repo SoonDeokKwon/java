@@ -59,7 +59,9 @@ public class Book {
 		System.out.println("4) 도서번호 : " + isbn );
 	}
 	
-	
+	void setkind(String kind) {
+		this.kind = kind;
+	}
 	
 	
 }
