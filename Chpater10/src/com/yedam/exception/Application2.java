@@ -13,6 +13,7 @@ public class Application2 {
 	}
 	
 	public static void findClass() throws ClassNotFoundException {
-		class clazz = Class.forName("java.lang.String2");
+		Class clazz = Class.forName("java.lang.String2");
+		
 	}
 }
