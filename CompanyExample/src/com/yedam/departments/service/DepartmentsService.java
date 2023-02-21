@@ -1,4 +1,4 @@
-package com.yedam.departments.service;
+);package com.yedam.departments.service;
 
 import java.util.List;
 import java.util.Scanner;
@@ -63,7 +63,7 @@ public class DepartmentsService {
 		if(result > 0) {
 			System.out.println("부서 등록 완료");
 		}else {
-			System.out.println("");
+			System.out.println("부서 등록 실패");
 		}
 		
 	}

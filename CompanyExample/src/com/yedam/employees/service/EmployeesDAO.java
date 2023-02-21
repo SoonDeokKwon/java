@@ -28,7 +28,7 @@ public class EmployeesDAO extends DAO {
 	
 	//모든 사원 조회
 	public List<Employees> getEmployeesList(){
-		List<Employees> list = new ArrayList();
+		List<Employees> list = new ArrayList<>();
 		
 		Employees employ = null;
 		
@@ -43,8 +43,10 @@ public class EmployeesDAO extends DAO {
 				employ = new Employees();
 				employ.setEmployeeId(rs.getInt("employee_id"));
 				employ.setLastName(rs.getString("last_name"));
-				employ.setJobId(rs.getInt("job_id"));
+				employ.setEmail(rs.getString("eamil"));
+				employ.setHireDate(rs.getDate("hire_date"));
 				employ.setSalary(rs.getInt("salary"));
+				employ.setJobId(rs.getInt("job_id"));
 				
 				list.add(employ);
 			}
@@ -76,7 +78,7 @@ public class EmployeesDAO extends DAO {
 				employ.setEmployeeId(rs.getInt("employee_id"));
 				employ.setLastName(rs.getString("last_name"));
 				employ.setJobId(rs.getInt("job_id"));
-				employ.setSalary(rs.getString("salary");	
+				employ.setSalary(rs.getInt("salary"));	
 			}
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -94,15 +96,15 @@ public class EmployeesDAO extends DAO {
 		try {
 			conn();
 			
-			String sql = "DELETE FROM WHERE emp employee_id = ?";
+			String sql = "DELETE FROM emp WHERE employee_id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, e.getEmployeeId());
 			
 			result = pstmt.executeUpdate();
 			
 			
-		}catch(Exception e) {
-			e.printStackTrace();
+		}catch(Exception E) {
+			E.printStackTrace();
 		}finally {
 			disconn();
 		}
@@ -123,8 +125,8 @@ public class EmployeesDAO extends DAO {
 			
 			result = pstmt.executeUpdate();
 			
-		}catch(Exception e) {
-			e.printStackTrace();
+		}catch(Exception E) {
+			E.printStackTrace();
 		}finally {
 			disconn();
 		}
@@ -138,17 +140,19 @@ public class EmployeesDAO extends DAO {
 		
 		try {
 			conn();
-			String sql =  "insert into emp values (?,?,?,?)";
+			String sql =  "insert into emp values (?,?,?,sysdate,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, e.getEmployeeId());
 			pstmt.setString(2, e.getLastName());
-			pstmt.setInt(3, e.getJobId());
-			pstmt.setInt(4, e.getSalary());
+			pstmt.setString(3, e.getEmail());
+			pstmt.setDate(4, e.getHireDate());
+			pstmt.setInt(5, e.getJobId());
+			pstmt.setInt(6, e.getSalary());
 			
 			result = pstmt.executeUpdate();
 			
-		}catch(Exception e) {
-			e.printStackTrace();
+		}catch(Exception E) {
+			E.printStackTrace();
 		}finally {
 			disconn();
 		}
