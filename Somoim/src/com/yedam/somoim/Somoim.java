@@ -1,6 +1,6 @@
 package com.yedam.somoim;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Somoim {
 //	MEMBER_ID   NOT NULL NUMBER(12)   

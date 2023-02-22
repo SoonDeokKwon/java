@@ -1,6 +1,7 @@
 package com.yedam.somoim;
 
 import java.util.Scanner;
+import java.util.List;
 
 public class SomoimService {
 	//member의 정보를 자바 전역에 공유하기 위해서 static
@@ -31,7 +32,12 @@ public class SomoimService {
 	//새 회원 등록
 	public void insertMember() {
 		System.out.println("회원 ID>");
-		int result = SomoimDAO.getInstance().insertMember(sc.nextLine());
+		String memID = sc.nextLine();
+		
+		Somoim somo = new Somoim();
+		somo.setMemberId(memID);
+		
+		int result = SomoimDAO.getInstance().insertMember(somo);
 		
 		if(result > 0) {
 			System.out.println("회원 ID 등록 완료");
@@ -42,6 +48,19 @@ public class SomoimService {
 	}
 	
 	//모든 회원 조회 -> 가입 날자 순서대로 조회
+	public void getMemberList() {
+		List<Somoim> list = SomoimDAO.getInstance().getMemberList();
+		System.out.println("==========================================");
+		
+		for(int i=0; i < list.size(); i++) {
+			System.out.println("회원 ID : " + list.get(i).getMemberId());
+			System.out.println("회원 이름 : " + list.get(i).getMemberName());
+			System.out.println("가입 날짜 : " + list.get(i).getJoinDate());
+			System.out.println("회원 이메일 : " + list.get(i).getEmail());
+			System.out.println("회원 나이 : " + list.get(i).getMemberAge());
+		}
+		
+	}
 	
 	//아이디로 회원 조회
 	public void getMember() {
@@ -79,5 +98,7 @@ public class SomoimService {
 		}
 		
 	}
+	
+
 	
 }
