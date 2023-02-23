@@ -1,5 +1,8 @@
 package com.yedam.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.yedam.common.DAO;
 
 public class ChargingStationDAO extends DAO{
@@ -17,23 +20,23 @@ public class ChargingStationDAO extends DAO{
 	
 	//빈자리 조회  
 	//locNo : 빈자리 조회 시 입력해줄 자리 번호
-	public ChargingStation emptyCheck(int locNo) {
-		ChargingStation charg = new ChargingStation();
+	public List<ChargingStation> emptyCheck() {
+		List<ChargingStation> list = new ArrayList<>();
+		
+		ChargingStation charg = null;
 		
 		try {
 			conn();
 			
 			String sql = "SELECT *\r\n"
-					+ "FROM charging_station\r\n"
-					+ "WHERE location_id = ? ";
+					+ "FROM charging_station\r\n";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, locNo);
-			
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				charg = new ChargingStation();
-				
+				charg.setLocationId(rs.getInt("location_id"));
+				list.add(charg);
 			}
 			
 			
@@ -42,7 +45,7 @@ public class ChargingStationDAO extends DAO{
 		}finally {
 			disconn();
 		}
-		return charg;
+		return list;
 	}
 	
 	

@@ -2,11 +2,13 @@ package com.yedam.exe;
 
 import java.util.Scanner;
 
+import com.yedam.service.ChargingService;
 import com.yedam.service.MemberService;
 
 public class ExeApp {
 	
 	MemberService ms = new MemberService();
+	ChargingService cs = new ChargingService();
 	Scanner sc = new Scanner(System.in);
 	
 	String menu = "";
@@ -176,12 +178,15 @@ public class ExeApp {
 		switch(menu) {
 		case "1":
 			//빈자리 조회
+			cs.emptyCheck();
 			break;
 		case "2":
 			//충전 등록
+			cs.regisCharging();
 			break;
 		case "3":
 			//결제
+			cs.payCharging();
 			break;
 		case "4":
 			//초기화면
