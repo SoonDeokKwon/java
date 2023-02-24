@@ -54,17 +54,29 @@ public class ChargingStationDAO extends DAO{
 		int result = 0;
 		try {
 			conn();
-			
-			String sql = "INSERT INTO charging_station\r\n"
-					+ "VALUES(?,?,?,sysdate,?)";
+			String sql = "SELECT COUNT(location_id)\r\n"
+					+ "FROM charging_station\r\n"
+					+ "WHERE location_id = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, c.getLocationId());
-			pstmt.setString(2, c.getCarNo());
-			pstmt.setString(3, c.getChargType());
-			pstmt.setInt(4, c.getBatterRemain());
+			pstmt.setInt(1,  c.getLocationId());
 			
-			result = pstmt.executeUpdate();
+			rs = pstmt.executeQuery();
 			
+			if(rs.next()) {
+				if(rs.getInt("COUNT(location_id)") != 0) {
+					result = 2;
+				}else {
+					sql = "INSERT INTO charging_station\r\n"
+							+ "VALUES(?,?,?,sysdate,?)";
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, c.getLocationId());
+					pstmt.setString(2, c.getCarNo());
+					pstmt.setString(3, c.getChargType());
+					pstmt.setInt(4, c.getBatterRemain());
+					
+					result = pstmt.executeUpdate();
+				}
+			}	
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -91,7 +103,6 @@ public class ChargingStationDAO extends DAO{
 			
 			if(rs.next()) {
 				charg = new ChargingStation();
-				charg.setLocationId(rs.getInt("location_id"));
 				charg.setChargType(rs.getString("charg_type"));
 				charg.setBatterRemain(rs.getInt("battery_remains"));
 				
@@ -106,5 +117,26 @@ public class ChargingStationDAO extends DAO{
 	}
 	
 
+	//등록 해제
+	public int deletCharging(int locaId) {
+		int result = 0;
+		
+		try {
+			conn();
+			 String sql = "DELETE FROM charging_station\r\n"
+			 		+ "WHERE location_id = ?";
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setInt(1, locaId);
+			 
+			 result = pstmt.executeUpdate();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		return result;
+	}
+	
 	
 }

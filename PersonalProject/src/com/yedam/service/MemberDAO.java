@@ -1,5 +1,8 @@
 package com.yedam.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.yedam.common.DAO;
 
 public class MemberDAO extends DAO{
@@ -49,6 +52,72 @@ public class MemberDAO extends DAO{
 	}
 	
 	
+	//전체 회원 정보 조회
+	public List<Member> getMemberList() {
+		List<Member> list = new ArrayList<>();
+		
+		Member mem = null;
+		
+		try {
+			conn();
+			
+			String sql = "SELECT *\r\n"
+					+ "FROM user_info";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()) {
+				mem = new Member();
+				mem.setMemberId(rs.getString("member_id"));
+				mem.setMemberPw(rs.getString("member_pw"));
+				mem.setMemberName(rs.getString("member_name"));
+				mem.setCarNo(rs.getString("car_number"));
+				mem.setMemberDisc(rs.getDouble("member_discount"));
+				mem.setNoiceScore(rs.getInt("notice_score"));
+				
+				list.add(mem);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		return list;
+	}
+	
+	//회원 게시판 점수 조회
+	public List<Member> getNoticeScore() {
+		List<Member> list = new ArrayList<>();
+		Member mem = null;
+		
+		try {
+			conn();
+			
+			String sql = "SELECT member_name, member_id, notice_score\r\n"
+					+ "FROM user_info";
+			pstmt = conn.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				mem = new Member();
+				mem.setMemberName(rs.getString("member_name"));
+				mem.setMemberId(rs.getString("member_id"));
+				mem.setNoiceScore(rs.getInt("notice_score"));
+				list.add(mem);
+			}
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		
+		return list;
+	}
+	
 	//회원 정보 조회
 	public Member getMember() {
 		Member mem = new Member();
@@ -86,9 +155,6 @@ public class MemberDAO extends DAO{
 		int result = 0;
 		
 		try {
-			
-			
-			
 			conn();
 			String sql = "INSERT INTO user_info\r\n"
 					+ "VALUES (?,?,?,?, 0.1, 0)";
@@ -108,7 +174,7 @@ public class MemberDAO extends DAO{
 		return result;
 	}
 	
-	//회원 정보 수정
+	//비밀번호 수정
 	public int modifyMember1(Member mem) {
 		int result = 0;
 		
@@ -122,7 +188,7 @@ public class MemberDAO extends DAO{
 			pstmt.setString(2, mem.getMemberId());
 			
 			result = pstmt.executeUpdate();
-			
+
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -131,7 +197,7 @@ public class MemberDAO extends DAO{
 		return result;
 	}
 	
-	//회원 정보 수정
+	//차량번호 수정
 	public int modifyMember2(Member mem) {
 		int result = 0;
 		
@@ -142,7 +208,7 @@ public class MemberDAO extends DAO{
 					+ "WHERE member_id = ?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mem.getCarNo());
-			pstmt.setString(2, mem.getMemberId());
+			pstmt.setString(2, MemberService.memberInfo.getMemberId());
 			
 			result = pstmt.executeUpdate();
 			
@@ -206,8 +272,6 @@ public class MemberDAO extends DAO{
 					result = pstmt.executeUpdate();
 				}
 			}
-	
-			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -215,6 +279,40 @@ public class MemberDAO extends DAO{
 		}
 		return result;
 	}
+
+	
+	//할인 제외 회원 조회
+	public List<Member> exceptDiscount() {
+		List<Member> list = new ArrayList<>();
+		Member mem = null;
+		
+		try {
+			conn();
+			
+			String sql = "SELECT member_name, member_id\r\n"
+					+ "FROM user_info\r\n"
+					+ "WHERE notice_score < 0";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				mem = new Member();
+				mem.setMemberName(rs.getString("member_name"));
+				mem.setMemberId(rs.getString("member_id"));
+				mem.setNoiceScore(rs.getInt("notice_score"));
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		
+		return list;
+	}
+	
+	
+	
 	
 	
 	

@@ -1,5 +1,6 @@
 package com.yedam.service;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class MemberService {
@@ -13,7 +14,7 @@ public class MemberService {
 	//로그인
 	public void loginAdmin() {
 		Member mem = null;
-		System.out.println("=============로그인==============");
+		System.out.println("====================로그인======================");
 		System.out.println("ID 입력>");
 		String memberID = sc.nextLine();
 		System.out.println("PW 입력>");
@@ -43,11 +44,45 @@ public class MemberService {
 		}
 	}
 	
+	//전체 회원 조회
+	public void getMemberList() {
+		List<Member> list = MemberDAO.getInstance().getMemberList();
+
+		for(int i=0; i<list.size(); i++) {
+			System.out.println("===============================================");
+			System.out.println("회원 ID : " + list.get(i).getMemberId());
+			System.out.println("회원 PW : " + list.get(i).getMemberPw());
+			System.out.println("회원이름 : " + list.get(i).getMemberName());
+			System.out.println("차량번호 : " + list.get(i).getCarNo());
+			System.out.println("회원 할인율 : " + list.get(i).getMemberDisc());
+			System.out.println("회원 게시판 점수 : " + list.get(i).getNoiceScore());
+			System.out.println("===============================================");
+		}
+	}
+	
+	
+	//전체 회원 게시판 점수 조회
+	public void getNoticeScore() {
+		List<Member> list = MemberDAO.getInstance().getNoticeScore();
+		for(int i=0; i<list.size();i++) {
+			System.out.println("===============================================");
+			System.out.println("회원 이름 : " + list.get(i).getMemberName());
+			System.out.println("회원 ID" + list.get(i).getMemberId());
+			System.out.println("게시판 점수 : " + list.get(i).getNoiceScore());
+			System.out.println("===============================================");
+		}
+	}
+	
 	
 	//회원정보 조회
-	public void getMemberList() {
+	public void getMember() {
 		Member mem = MemberDAO.getInstance().getMember();
-		System.out.println(mem.toString());	
+		System.out.println("회원 ID : " + mem.getMemberId());
+		System.out.println("회원 PW : " + mem.getMemberPw());
+		System.out.println("회원이름 : " + mem.getMemberName());
+		System.out.println("차량번호 : " + mem.getCarNo());
+		System.out.println("회원 할인율 : " + mem.getMemberDisc());
+		System.out.println("회원 게시판 점수 : " + mem.getNoiceScore());
 	}
 	
 	
@@ -66,9 +101,7 @@ public class MemberService {
 		mem.setCarNo(sc.nextLine());
 		
 		int result = MemberDAO.getInstance().doubleCheck(mem);
-//		boolean run2 = true;
-	
-			
+
 			if(result==2) {
 					System.out.println("중복된 아이디입니다.");
 					insertMember();
@@ -78,10 +111,9 @@ public class MemberService {
 			}else {
 				System.out.println("회원 가입 실패");
 			}
-
-
-		
 	}
+	
+	
 	
 	//비밀번호 정보 수정
 	public void modifyMember1() {
@@ -98,9 +130,7 @@ public class MemberService {
 			System.out.println("회원 정보 수정 완료");
 		}else {
 			System.out.println("회원 정보 수정 실패");
-		}
-		
-		
+		}		
 	}
 	
 	
@@ -111,9 +141,7 @@ public class MemberService {
 		
 		System.out.println("수정할 차량 번호>");
 		mem.setCarNo(sc.nextLine());
-		System.out.println("ID>");
-		mem.setMemberPw(sc.nextLine());
-
+		mem.setMemberId(MemberService.memberInfo.getMemberId());
 		
 		int result = MemberDAO.getInstance().modifyMember2(mem);
 		
@@ -121,11 +149,8 @@ public class MemberService {
 			System.out.println("회원 정보 수정 완료");
 		}else {
 			System.out.println("회원 정보 수정 실패");
-		}
-		
-		
+		}	
 	}
-	
 	
 	
 	//회원 정보 삭제
@@ -139,6 +164,23 @@ public class MemberService {
 			System.out.println("회원 ID 삭제 실패");
 		}
 	}
+	
+	
+	
+	//할인 제외 회원 조회
+	public void exceptDiscount() {
+		List<Member> list = MemberDAO.getInstance().exceptDiscount();
+		for(int i = 0; i < list.size(); i++) {
+			System.out.println("===============================================");
+			System.out.println("회원 이름 : " + list.get(i).getMemberName());
+			System.out.println("회원 ID : " + list.get(i).getMemberId());
+			System.out.println("게시판 점수 : " + list.get(i).getNoiceScore());
+			System.out.println("===============================================");
+			
+		}
+	}
+	
+	
 	
 
 }
