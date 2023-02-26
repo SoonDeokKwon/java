@@ -2,6 +2,7 @@ package com.yedam.exe;
 
 import java.util.Scanner;
 
+import com.yedam.board.SuggestionBoardService;
 import com.yedam.service.ChargingService;
 import com.yedam.service.MemberService;
 
@@ -9,6 +10,7 @@ public class ExeApp {
 	
 	MemberService ms = new MemberService();
 	ChargingService cs = new ChargingService();
+	SuggestionBoardService sb = new SuggestionBoardService();
 	Scanner sc = new Scanner(System.in);
 	
 	String menu = "";
@@ -36,7 +38,7 @@ public class ExeApp {
 		}
 	}
 	
-	
+	//로그인 이후 화면(회원)
 	public void loginMenu() {
 		//내 정보 전체 조회 | 게시판 점수 조회 | 비밀번호 수정 | 차량번호 수정
 		System.out.println("====================================================================");
@@ -57,7 +59,7 @@ public class ExeApp {
 			break;
 		case "3":
 			//게시판
-			
+			boardMenu();
 			break;
 		case "4":
 			//쪽지함
@@ -71,6 +73,7 @@ public class ExeApp {
 		
 	}
 	
+	//로그인 이후 화면(회원) -> 회원 정보
 	public void memberInfo() {
 		System.out.println("==========================================================================================================");
 		System.out.println("| 1. 회원 정보 조회 | 2. 게시판 점수 조회 | 3. 비밀번호 수정 | 4. 차량번호 수정 | 5. 회원 탈퇴 |  7. 로그인 메인 메뉴  |");
@@ -112,6 +115,7 @@ public class ExeApp {
 	}
 	
 	
+	//로그인 이후 화면(관리자)
 	public void adminmenu() {
 		System.out.println("======================================================================================================");
 		System.out.println("| 1. 전체 회원 조회 | 2. 게시판 점수 조회 | 3. 할인 제외 회원 조회 | 4. 쪽지 보내기 | 5. 회원 강제 탈퇴 | 6. 로그아웃 |  ");
@@ -180,7 +184,7 @@ public class ExeApp {
 		}
 	}
 	
-	
+	//비회원 전기차 충전
 	public void chargingMenu() {
 		System.out.println("============================================================");
 		System.out.println("| 1. 빈자리 조회 | 2. 충전 등록 | 3. 결제 및 등록해제 | 4. 초기화면 |");
@@ -211,7 +215,7 @@ public class ExeApp {
 	}
 	
 	
-	
+	//로그인 이후 화면(회원) -> 전기차 충전
 	public void memberChargingMenu() {
 		System.out.println("============================================================");
 		System.out.println("| 1. 빈자리 조회 | 2. 충전 등록 | 3. 결제 및 등록해제 | 4. 초기화면 |");
@@ -223,6 +227,7 @@ public class ExeApp {
 		case "1":
 			//빈자리 조회
 			cs.emptyCheck();
+			memberChargingMenu();
 			break;
 		case "2":
 			//회원용 충전 등록
@@ -242,10 +247,42 @@ public class ExeApp {
 		}
 	}
 	
-	public void chargingClear() {
-		System.out.println("====================================================");
-		System.out.println("| 1. 빈자리 조회 | 2. 충전 등록 | 3. 등록해제 | 4. 초기화면 |");
-		System.out.println("====================================================");
+	//로그인 이후 화면(회원) -> 게시판 선택 메뉴
+	public void boardMenu() {
+		System.out.println("==========================================================");
+		System.out.println("| 1. 공지사항 게시판 | 2. 건의 게시판  | 3. 칭찬 게시판 | 4. 뒤로가기 |");
+		System.out.println("==========================================================");
+		System.out.println("입력>");
+		menu = sc.nextLine();
+		
+		switch(menu) {
+		case "1":
+			//공지사항 게시판
+			
+			break;
+		case "2":
+			//건의 게시판(제목만 보이는 페이지로 이동)
+			sb.listSuggestBoard();
+			
+			sb.viewSuggestBoard();
+			boardMenu();
+			break;
+		case "3":
+			//칭찬 게시판
+			
+			break;
+		case "4":
+			//뒤로가기
+			loginMenu();
+			break;
+		}
+	}
+	
+	//건의사항 게시판 메뉴
+	public void sugBoardMenu() {
+		System.out.println("==========================================================");
+		System.out.println("| 1. 공지사항 게시판 | 2. 건의 게시판  | 3. 칭찬 게시판 | 4. 뒤로가기 |");
+		System.out.println("==========================================================");
 		System.out.println("입력>");
 		menu = sc.nextLine();
 	}
