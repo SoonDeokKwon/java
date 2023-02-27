@@ -14,7 +14,7 @@ public class DirectMessageDAO extends DAO{
 		
 	}
 	
-	private static DirectMessageDAO getInstance() {
+	public static DirectMessageDAO getInstance() {
 		return dmDao;
 	}
 	
