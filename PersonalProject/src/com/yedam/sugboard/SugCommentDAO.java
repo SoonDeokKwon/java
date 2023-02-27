@@ -143,6 +143,27 @@ public class SugCommentDAO extends DAO{
 		return result;
 	}
 	
+	//댓글 삭제(관리자)
+		public int adminDeleteSugComment(SugComment sCom) {
+			int result =0;
+			
+			try {
+				conn();
+				String sql = "DELETE FROM suggestion_comment\r\n"
+						+ "WHERE sugcomment_id = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, sCom.getSugCommentId());
+				
+				result = pstmt.executeUpdate();
+				
+			}catch(Exception e){
+				e.printStackTrace();
+			}finally {
+				disconn();
+			}
+			return result;
+		}
+	
 	
 	//댓글번호 재정렬
 	public int SugComReordering(SugComment sCom) {

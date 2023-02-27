@@ -9,8 +9,8 @@ public class SuggestionBoardService {
 	
 	public static SuggestionBoard suggestInfo = null;
 	public static int inputNo = 0;
-	private static int page = 1;
-	private static int totalpage = 0;
+//	private static int page = 1;
+//	private static int totalpage = 0;
 	
 	Scanner sc = new Scanner(System.in);
 	
@@ -19,15 +19,14 @@ public class SuggestionBoardService {
 	public void listSuggestBoard() {
 		List<SuggestionBoard> list = SuggestionBoardDAO.getInstance().listSuggestBoard();
 		
-		
 		for(int i =0; i < list.size(); i++) {
 			
-			
 			System.out.println("============================================================");
-			System.out.println(list.get(i).getSugBoardId() + "번 \t" + "작성자:" + list.get(i).getMemberName() + "\t" + list.get(i).getSugSubject() );
-
+			System.out.println(list.get(i).getSugBoardId() + "번 \t" + " | 작성자: " + list.get(i).getMemberName() + " |\t" + list.get(i).getSugSubject() );
 			
 		}
+			
+
 	}
 	
 	
@@ -40,10 +39,12 @@ public class SuggestionBoardService {
 		System.out.println("───────────────────────────────────────────────────────────────────────");
 		System.out.print("게시번호 : " + sug.getSugBoardId() + "\t");
 		System.out.print("ID : " + sug.getMemberId() + "\t");
-		System.out.print("이름 : " + sug.getMemberName() + "\t");
+		System.out.print("작성자 : " + sug.getMemberName() + "\t");
 		System.out.println("작성 날짜 : " + sug.getSugDate());
 		System.out.println("제목 : " + sug.getSugSubject());
+		System.out.println();
 		System.out.println(sug.getSugContents());
+		System.out.println();
 		System.out.println("───────────────────────────────────────────────────────────────────────");
 
 	}
@@ -58,7 +59,9 @@ public class SuggestionBoardService {
 		System.out.print("회원 이름 : " + sug.getMemberName() + "\t");
 		System.out.println("작성 날짜 : " + sug.getSugDate());
 		System.out.println("제목 : " + sug.getSugSubject());
+		System.out.println();
 		System.out.println(sug.getSugContents());
+		System.out.println();
 		System.out.println("───────────────────────────────────────────────────────────────────────");
 
 	}
@@ -67,7 +70,7 @@ public class SuggestionBoardService {
 	//게시글 작성
 	public void insertSuggestion() {
 		SuggestionBoard sug = new SuggestionBoard();
-		System.out.println("==========================================================");
+//		System.out.println("==========================================================");
 		sug.setMemberId(MemberService.memberInfo.getMemberId());
 		sug.setMemberName(MemberService.memberInfo.getMemberName());
 		System.out.println("제목 입력>");
@@ -133,7 +136,7 @@ public class SuggestionBoardService {
 	public void adminDeleteSuggest() {
 		SuggestionBoard sug = new SuggestionBoard();
 		System.out.println("삭제할 게시글 번호 입력>");
-		sug.setSugBoardId(Integer.parseInt(sc.nextLine()));
+		sug.setSugBoardId(inputNo);
 		
 		int result = SuggestionBoardDAO.getInstance().adminDeleteSuggest(sug);
 		if(result > 0) {

@@ -2,6 +2,7 @@ package com.yedam.exe;
 
 import java.util.Scanner;
 
+import com.yedam.notiboard.NoticeBoardService;
 import com.yedam.service.ChargingService;
 import com.yedam.service.MemberService;
 import com.yedam.sugboard.SugCommentService;
@@ -13,6 +14,7 @@ public class ExeApp {
 	ChargingService cs = new ChargingService();
 	SuggestionBoardService sb = new SuggestionBoardService();
 	SugCommentService scom = new SugCommentService();
+	NoticeBoardService nb = new NoticeBoardService();
 	Scanner sc = new Scanner(System.in);
 	
 	String menu = "";
@@ -147,8 +149,8 @@ public class ExeApp {
 			adminmenu();
 			break;
 		case "6":
-			//게시판
-			boardMenu();
+			//게시판(관리자용)
+			adminBoardMenu();
 			break;
 		case "7":
 			//로그아웃
@@ -157,7 +159,198 @@ public class ExeApp {
 		}
 		
 	}
-
+	
+	//관리자용 게시판 메뉴
+	public void adminBoardMenu() {
+		System.out.println("==========================================================");
+		System.out.println("| 1. 공지사항 게시판 | 2. 건의 게시판  | 3. 신고 게시판 | 4. 뒤로가기 |");
+		System.out.println("==========================================================");
+		System.out.println("입력>");
+		menu = sc.nextLine();
+		
+		switch(menu) {
+		case "1":
+			//공지사항 게시판(제목 리스트 페이지)
+			adminNoticeBoardMenu();
+			break;
+		case "2":
+			//건의 게시판 메뉴로 이동
+			adminSugBoardMenu();
+			break;
+		case "3":
+			//칭찬 게시판
+			
+			break;
+		case "4":
+			//뒤로가기
+			adminmenu();
+			break;
+		}
+	}
+	
+	//관리자용 공지 게시판 메뉴
+		public void adminNoticeBoardMenu() {
+			System.out.println("==========================================================");
+			System.out.println("| 1. 글쓰기  | 2. 공지사항 게시글  목록  | 3. 게시판 메뉴(뒤로 가기)  |");
+			System.out.println("==========================================================");
+			System.out.println("입력>");
+			menu = sc.nextLine();
+			
+			switch(menu) {
+			case "1":
+				//공지사항 글쓰기
+				nb.insertNotiBoard();;
+				adminNoticeBoardMenu();
+				break;
+			case "2":
+				//공지사항 게시글 목록
+				nb.listNoticeBoard();
+				viewNoticeBoard();
+				break;
+			case "3":
+				//뒤로 가기
+				adminBoardMenu();
+				break;
+			}
+		}
+		
+		//관리자용 건의 게시판
+		//건의 게시판 메뉴
+		public void adminSugBoardMenu() {
+			System.out.println("==========================================================");
+			System.out.println("| 1. 글쓰기  | 2. 건의 게시글  목록  | 3. 게시판 메뉴(뒤로 가기)  |");
+			System.out.println("==========================================================");
+			System.out.println("입력>");
+			menu = sc.nextLine();
+			
+			switch(menu) {
+			case "1":
+				//글쓰기
+				sb.insertSuggestion();
+				adminSugBoardMenu();
+				break;
+			case "2":
+				//건의 게시글 목록
+				sb.listSuggestBoard();
+				adminViewSuggestBoard();
+				break;
+			case "3":
+				//뒤로 가기
+				adminBoardMenu();
+				break;
+			}
+		}
+		
+		
+		//건의 게시글 보기
+		public void adminViewSuggestBoard() {
+			System.out.println("==================================================================");
+			System.out.println("| 1. 게시글 선택  | 2. 이전 페이지  | 3. 다음 페이지 | 4. 건의 게시판 메뉴 |");
+			System.out.println("==================================================================");
+			System.out.println("입력>");
+			menu = sc.nextLine();
+			
+			switch(menu) {
+			case "1":
+				//게시글 선택
+				sb.viewSuggestBoard();
+				scom.listSugComment();
+				adminSuggestCommentMenu();			
+				break;
+			case "2":
+				//이전 페이지
+				
+				break;
+			case "3":
+				//다음 페이지
+				
+				break;
+			case "4":
+				//뒤로가기
+				adminSugBoardMenu();
+				break;
+			}
+		}
+		
+		public void adminSuggestCommentMenu() {
+			System.out.println("======================================================");
+			System.out.println("| 1. 댓글 입력 | 2. 댓글 삭제 | 3. 게시글 삭제  | 6. 뒤로 가기 |");
+			System.out.println("======================================================");
+			System.out.println("입력>");
+			menu = sc.nextLine();
+			
+			switch(menu) {
+			case "1":
+				//댓글 입력
+				scom.insertSugComment();
+				sb.viewSuggestBoard2();
+				scom.listSugComment();
+				adminSuggestCommentMenu();
+				break;
+			case "2":
+				//댓글 삭제
+				scom.adminDeleteSugComment();
+				scom.SugComReordering2();
+				sb.viewSuggestBoard2();
+				scom.listSugComment();
+				SuggestCommentMenu();
+				break;
+			case "3":
+				//게시글 삭제
+				sb.adminDeleteSuggest();
+				sb.reordering();
+				scom.listSugComment();
+				SuggestCommentMenu();
+				break;
+			case "4":
+				//뒤로가기
+				sb.listSuggestBoard();
+				viewSuggestBoard();
+				break;
+			}
+		}
+		
+		//건의 게시글 보기
+		public void viewNoticeBoard() {
+			System.out.println("==============================================================================================");
+			System.out.println("| 1. 게시글 선택  | 2. 이전 페이지  | 3. 다음 페이지 | 4. 게시글 수정  | 5. 게시글 삭제 | 6. 공지사항 게시판 메뉴 |");
+			System.out.println("==============================================================================================");
+			System.out.println("입력>");
+			menu = sc.nextLine();
+			
+			switch(menu) {
+			case "1":
+				//게시글 선택
+				nb.viewNotiBoard();	
+				viewNoticeBoard();
+				break;
+			case "2":
+				//이전 페이지
+				
+				break;
+			case "3":
+				//다음 페이지
+				
+				break;
+			case "4":
+				//게시글 수정
+				nb.modifyNoticeBoard();
+				nb.viewNotiBoard2();
+				viewNoticeBoard();
+				break;
+			case "5":
+				//게시글 삭제
+				nb.deleteNotiBoard();
+				nb.viewNotiBoard2();
+				viewNoticeBoard();
+				break;
+			case "6":
+				//뒤로가기
+				adminNoticeBoardMenu();
+				break;
+			}
+		}
+		
 	
 	public void logoutMenu() {
 		//| 1. 로그인 | 2.회원가입 | 3.전기차 충전 |
@@ -334,7 +527,7 @@ public class ExeApp {
 			break;
 		}
 	}
-	
+	//댓글 (회원)
 	public void SuggestCommentMenu() {
 		System.out.println("======================================================================================");
 		System.out.println("| 1. 댓글 입력  | 2. 댓글 수정  | 3. 댓글 삭제 | 4. 게시글 수정  | 5. 게시글 삭제  | 6. 뒤로 가기 |");
