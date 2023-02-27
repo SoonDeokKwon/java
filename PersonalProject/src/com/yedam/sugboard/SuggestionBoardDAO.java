@@ -1,4 +1,4 @@
-package com.yedam.board;
+package com.yedam.sugboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +27,16 @@ public class SuggestionBoardDAO extends DAO {
 		
 		try {
 			conn();
-			String sql = "SELECT sugboard_id, sugboard_subject\n"
-					+ "FROM suggestion_board";
+			String sql = "SELECT sugboard_id, member_name, sugboard_subject\r\n"
+					+ "FROM suggestion_board\r\n"
+					+ "ORDER BY sugboard_id";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				sug = new SuggestionBoard();
 				sug.setSugBoardId(rs.getInt("sugboard_id"));
+				sug.setMemberName(rs.getString("member_name"));
 				sug.setSugSubject(rs.getString("sugboard_subject"));
 				list.add(sug);
 			}
@@ -48,8 +50,8 @@ public class SuggestionBoardDAO extends DAO {
 	}
 	
 	//게시 내용 보기
-	public SuggestionBoard viewSuggestBoard(){
-		SuggestionBoard sug = new SuggestionBoard() ;
+	public SuggestionBoard viewSuggestBoard(int selectNo){
+		SuggestionBoard sug = null ;
 		
 		try {
 			conn();
@@ -57,13 +59,14 @@ public class SuggestionBoardDAO extends DAO {
 					+ "FROM suggestion_board\r\n"
 					+ "WHERE sugboard_id =?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, sug.getSugBoardId());
+			pstmt.setInt(1, selectNo);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
 				sug = new SuggestionBoard();
 				sug.setSugBoardId(rs.getInt("sugboard_id"));
 				sug.setMemberId(rs.getString("member_id"));
+				sug.setMemberName(rs.getString("member_name"));
 				sug.setSugSubject(rs.getString("sugboard_subject"));
 				sug.setSugContents(rs.getString("sugboard_contents"));
 				sug.setSugDate(rs.getDate("sugboard_date"));
@@ -76,6 +79,8 @@ public class SuggestionBoardDAO extends DAO {
 		return sug;
 	}
 	
+	
+//	
 	//게시글 작성
 	public int insertSuggestion(SuggestionBoard sug) {
 		int result = 0;
@@ -93,16 +98,17 @@ public class SuggestionBoardDAO extends DAO {
 			if(rs.next()) {
 				if(rs.getInt("sugboard_id") != 1){
 					sql = "INSERT INTO suggestion_board\r\n"
-							+ "VALUES(1, ?, ?, ?,sysdate)";
+							+ "VALUES(1, ?, ?, ?, ?,sysdate)";
 					pstmt = conn.prepareStatement(sql);
-					pstmt.setInt(1, sug.getSugBoardId());
-					pstmt.setString(2, sug.getMemberId());
+					pstmt.setString(1, sug.getMemberId());
+					pstmt.setString(2, sug.getMemberName());
 					pstmt.setString(3, sug.getSugSubject());
-					pstmt.setString(4, sug.getSugContents()); 
+					pstmt.setString(4, sug.getSugContents());
+					result = pstmt.executeUpdate();
 				}else {
 					sql = "INSERT INTO suggestion_board \n"
 							+ "SELECT sugboard_id+1 , ?,?, ?, ?, sysdate\n"
-							+ "    FROM    suggestion_board sb\n"
+							+ "    FROM    suggestion_board \n"
 							+ "    WHERE sugboard_id = (\n"
 							+ "                                        SELECT MAX(sugboard_id)\n"
 							+ "                                        FROM suggestion_board\n"
@@ -156,7 +162,7 @@ public class SuggestionBoardDAO extends DAO {
 			conn();
 			String sql = "UPDATE suggestion_board\r\n"
 					+ "SET sugboard_subject = ?, sugboard_contents = ?, sugboard_date = sysdate \r\n"
-					+ "WHERE sugboard_id = ?, member_id = ? ";
+					+ "WHERE sugboard_id = ? AND member_id = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, sug.getSugSubject());
 			pstmt.setString(2, sug.getSugContents());
@@ -164,6 +170,7 @@ public class SuggestionBoardDAO extends DAO {
 			pstmt.setString(4, sug.getMemberId());
 			
 			result = pstmt.executeUpdate();		
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -199,7 +206,7 @@ public class SuggestionBoardDAO extends DAO {
 		try {
 			conn();
 			String sql = "DELETE FROM suggestion_board\r\n"
-					+ "WHERE sugboard_id =?, member_id = ? ";
+					+ "WHERE sugboard_id =? AND member_id = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, sug.getSugBoardId());
 			pstmt.setString(2, sug.getMemberId());
@@ -238,6 +245,7 @@ public class SuggestionBoardDAO extends DAO {
 		}
 		return result;
 	}
+
 	
 	
 	

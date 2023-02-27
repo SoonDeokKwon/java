@@ -1,4 +1,4 @@
-package com.yedam.board;
+package com.yedam.sugboard;
 
 import java.sql.Date;
 
