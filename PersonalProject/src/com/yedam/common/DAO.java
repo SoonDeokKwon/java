@@ -31,18 +31,18 @@ public class DAO {
 	//perpro 계정 접속
 	
 	
-	Properties pro = new Properties();
+//	Properties pro = new Properties();
 	
-	String driver = null;
-	String url = null;
-	String id = null;
-	String pw = null;
+	String driver = "oracle.jdbc.driver.OracleDriver";
+	String url = "jdbc:oracle:thin:@localhost:1521:xe";
+	String id = "perpro";
+	String pw = "perpro";
 	
 	//DB 연결 메소드
 	public void conn() {
 		try {
 			//db.properties의 정보 loading
-			getProperties();
+//			getProperties();
 			
 			//1. 드라이버 로딩
 			Class.forName(driver);
@@ -79,19 +79,19 @@ public class DAO {
 	//2. 프로그램 실행 중 DB가 변경이 된다면... 원래 프로그램 껐다가 내용 수정 후 켜야하는데..
 	//메모장 같은 곳에 내용을 불러와서 쓴다면.. 프로그램이 돌아가고 있는 도중에 메모장에 쓴
 	//내용을 불러가기 때문에, 프로그램 종료하지 않고 수정된 DB 관련 내용을 적용시킬 수 있다.
-	private void getProperties() {
-		try {
-			FileReader resource = new FileReader("src/config/db.properties");
-			pro.load(resource);
-			driver = pro.getProperty("driver");
-			url = pro.getProperty("url");
-			id = pro.getProperty("id");
-			pw = pro.getProperty("pw");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
+//	private void getProperties() {
+//		try {
+//			FileReader resource = new FileReader("src/config/db.properties");
+//			pro.load(resource);
+//			driver = pro.getProperty("driver");
+//			url = pro.getProperty("url");
+//			id = pro.getProperty("id");
+//			pw = pro.getProperty("pw");
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		
+//	}
 	
 	
 	

@@ -3,20 +3,48 @@ package com.yedam.notiboard;
 import java.util.List;
 import java.util.Scanner;
 
+import com.yedam.sugboard.SuggestionBoardService;
+
 public class NoticeBoardService {
 	
 	Scanner sc = new Scanner(System.in);
 	public static int inputNo3 = 0;
+	SuggestionBoardService sb = new SuggestionBoardService();
 	
 	//게시 제목 리스트
+//	public void listNoticeBoard() {
+//		List<NoticeBoard> list = NoticeBoardDAO.getInstance().listNoticeBoard();
+//		
+//		for(int i=0; i<list.size(); i++) {
+//			System.out.println("============================================================");
+//			System.out.println(list.get(i).getNoticeId() + "번 \t" + " | 작성자: "  + list.get(i).getMemberName() + "|\t" + list.get(i).getNotiSubject());
+//		}
+//	}
+	
 	public void listNoticeBoard() {
 		List<NoticeBoard> list = NoticeBoardDAO.getInstance().listNoticeBoard();
 		
-		for(int i=0; i<list.size(); i++) {
-			System.out.println("============================================================");
-			System.out.println(list.get(i).getNoticeId() + "번 \t" + " | 작성자: "  + list.get(i).getMemberName() + "|\t" + list.get(i).getNotiSubject());
+		if(list.size()%10 == 0) {
+			sb.totalpage = list.size()/10;
+		}else if(list.size()%10 != 0) {
+			sb.totalpage = list.size()/10 +1;
 		}
+		if(sb.page != sb.totalpage) {
+			for(int j = sb.page*10-10;  j < sb.page*10; j++) {
+				System.out.println("============================================================");
+				System.out.println(list.get(j).getNoticeId() + "번 \t" + "작성자:" + list.get(j).getMemberName() + "\t" + list.get(j).getNotiSubject() );
+
+			}
+		}else if(sb.page == sb.totalpage) {
+			for(int j = sb.page*10-10;  j< (sb.page-1)*10+ list.size()%10  ; j++) {
+				System.out.println("============================================================");
+				System.out.println(list.get(j).getNoticeId() + "번 \t" + "작성자:" + list.get(j).getMemberName() + "\t" + list.get(j).getNotiSubject() );
+			}
+		}
+		System.out.println("==========================  "+ sb.page + "page" +"  ==========================");
+		
 	}
+	
 	
 	//게시물 내용 보기
 	public void viewNotiBoard() {

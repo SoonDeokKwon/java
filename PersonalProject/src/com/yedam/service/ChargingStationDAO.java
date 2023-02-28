@@ -29,11 +29,12 @@ public class ChargingStationDAO extends DAO{
 			conn();
 			
 			String sql = "SELECT *\r\n"
-					+ "FROM charging_station\r\n";
+					+ "FROM charging_station\r\n"
+					+ "ORDER BY location_id";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
 				charg = new ChargingStation();
 				charg.setLocationId(rs.getInt("location_id"));
 				list.add(charg);

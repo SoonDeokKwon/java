@@ -312,7 +312,28 @@ public class MemberDAO extends DAO{
 	}
 	
 	
-	
+	//빌런 저격
+	public int snipeVillein(Member mem) {
+		int result =0;
+		
+		try {
+			conn();
+			String sql = "UPDATE user_info\r\n"
+					+ "SET notice_score = notice_score - 1\r\n"
+					+ "WHERE member_name = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mem.getMemberName());
+			
+			result = pstmt.executeUpdate();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		
+		return result;
+	}
 	
 	
 	

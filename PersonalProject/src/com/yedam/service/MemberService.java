@@ -14,7 +14,7 @@ public class MemberService {
 	//로그인
 	public void loginAdmin() {
 		Member mem = null;
-		System.out.println("====================로그인======================");
+		System.out.println("===============================로그인=================================");
 		System.out.println("ID 입력>");
 		String memberID = sc.nextLine();
 		System.out.println("PW 입력>");
@@ -29,12 +29,12 @@ public class MemberService {
 					System.out.println("관리자로 정상 로그인 되었습니다.");
 					memberInfo = mem;		
 					host = 1;
-					System.out.println(memberInfo.getMemberName() + "님 환영합니다!✨✨");
+					System.out.println(memberInfo.getMemberName() + "님 환영합니다!");
 				}else{
 					System.out.println("정상 로그인 되었습니다.");
 					memberInfo = mem;	
 					host = 2;
-					System.out.println(memberInfo.getMemberName() + "님 환영합니다!✨✨");
+					System.out.println(memberInfo.getMemberName() + "님 환영합니다!");
 				}
 			}else {
 				System.out.println("비밀번호가 틀립니다.");
@@ -49,14 +49,14 @@ public class MemberService {
 		List<Member> list = MemberDAO.getInstance().getMemberList();
 
 		for(int i=0; i<list.size(); i++) {
-			System.out.println("===============================================");
+			System.out.println("======================================================================");
 			System.out.println("회원 ID : " + list.get(i).getMemberId());
 			System.out.println("회원 PW : " + list.get(i).getMemberPw());
 			System.out.println("회원이름 : " + list.get(i).getMemberName());
 			System.out.println("차량번호 : " + list.get(i).getCarNo());
 			System.out.println("회원 할인율 : " + list.get(i).getMemberDisc());
 			System.out.println("회원 게시판 점수 : " + list.get(i).getNoiceScore());
-			System.out.println("===============================================");
+			System.out.println("=====================================================================");
 		}
 	}
 	
@@ -65,11 +65,11 @@ public class MemberService {
 	public void getNoticeScore() {
 		List<Member> list = MemberDAO.getInstance().getNoticeScore();
 		for(int i=0; i<list.size();i++) {
-			System.out.println("===============================================");
+			System.out.println("===================================================================");
 			System.out.println("회원 이름 : " + list.get(i).getMemberName());
 			System.out.println("회원 ID" + list.get(i).getMemberId());
 			System.out.println("게시판 점수 : " + list.get(i).getNoiceScore());
-			System.out.println("===============================================");
+			System.out.println("===================================================================");
 		}
 	}
 	
@@ -89,7 +89,7 @@ public class MemberService {
 	//회원 등록
 	public void insertMember() {
 		Member mem = new Member();
-		System.out.println("=========================================");
+		System.out.println("=============================================================");
 
 		System.out.println("회원 ID>");
 		mem.setMemberId(sc.nextLine());
@@ -171,16 +171,33 @@ public class MemberService {
 	public void exceptDiscount() {
 		List<Member> list = MemberDAO.getInstance().exceptDiscount();
 		for(int i = 0; i < list.size(); i++) {
-			System.out.println("===============================================");
+			System.out.println("=========================================================");
 			System.out.println("회원 이름 : " + list.get(i).getMemberName());
 			System.out.println("회원 ID : " + list.get(i).getMemberId());
 			System.out.println("게시판 점수 : " + list.get(i).getNoiceScore());
-			System.out.println("===============================================");
+			System.out.println("=========================================================");
 			
 		}
 	}
 	
 	
+	//빌런 저격
+	public void snipeVillein() {
+		Member mem = new Member();
+		System.out.println("이 세상에는 보통의 상식으로는 감당하기 어려운 인간들이 많습니다!");
+		System.out.println("저희는 충전소에서는 그러한 인간들을 빌런이라 칭합니다.");
+		System.out.println("충전소를 이용하며 만난 빌런이 있다면 신고 부탁드립니다~!!");
+		System.out.println("───────────────────────────────────────────────────────────────");
+		System.out.println("┏ㅁㅁ=ㅇO 저격할 빌런 이름>");
+		mem.setMemberName(sc.nextLine());
+		
+		int result = MemberDAO.getInstance().snipeVillein(mem);
+		if(result > 0) {
+			System.out.println("빌런 저격에 성공했습니다!");
+		}else {
+			System.out.println("빌런 저격에 실패했습니다!");
+		}
+	}
 	
 
 }

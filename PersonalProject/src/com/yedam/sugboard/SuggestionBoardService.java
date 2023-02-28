@@ -9,25 +9,56 @@ public class SuggestionBoardService {
 	
 	public static SuggestionBoard suggestInfo = null;
 	public static int inputNo = 0;
-//	private static int page = 1;
-//	private static int totalpage = 0;
+	public static int page = 1;
+	public static int totalpage = 0;
 	
 	Scanner sc = new Scanner(System.in);
 	
 	
 	//게시 제목 페이지
+//	public void listSuggestBoard() {
+//		List<SuggestionBoard> list = SuggestionBoardDAO.getInstance().listSuggestBoard();
+//		
+//		for(int i =0; i < list.size(); i++) {
+//			
+//			System.out.println("============================================================");
+//			System.out.println(list.get(i).getSugBoardId() + "번 \t" + " | 작성자: " + list.get(i).getMemberName() + " |\t" + list.get(i).getSugSubject() );
+//			
+//		}
+//			
+//
+//	}
+	
 	public void listSuggestBoard() {
 		List<SuggestionBoard> list = SuggestionBoardDAO.getInstance().listSuggestBoard();
 		
-		for(int i =0; i < list.size(); i++) {
-			
-			System.out.println("============================================================");
-			System.out.println(list.get(i).getSugBoardId() + "번 \t" + " | 작성자: " + list.get(i).getMemberName() + " |\t" + list.get(i).getSugSubject() );
-			
+		if(list.size()%10 == 0) {
+			totalpage = list.size()/10;
+		}else if(list.size()%10 != 0) {
+			totalpage = list.size()/10 +1;
 		}
-			
+		
+		
+//		for(int i=1; i <= totalpage; i++) {
+//			i = page;
+			if(page != totalpage) {
+				for(int j = page*10-10;  j < page*10; j++) {
+					System.out.println("============================================================");
+					System.out.println(list.get(j).getSugBoardId() + "번 \t" + "작성자:" + list.get(j).getMemberName() + "\t" + list.get(j).getSugSubject() );
 
+				}
+			}else if(page == totalpage) {
+				for(int j = page*10-10;  j< (page-1)*10+ list.size()%10  ; j++) {
+					System.out.println("============================================================");
+					System.out.println(list.get(j).getSugBoardId() + "번 \t" + "작성자:" + list.get(j).getMemberName() + "\t" + list.get(j).getSugSubject() );
+				}
+			}
+			System.out.println("==========================  "+ page + "page" +"  ==========================");
+		
 	}
+	
+	
+	
 	
 	
 	//게시글 내용 보기

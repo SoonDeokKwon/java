@@ -2,6 +2,7 @@ package com.yedam.exe;
 
 import java.util.Scanner;
 
+import com.yedam.directmessage.DirectMessageService;
 import com.yedam.notiboard.NoticeBoardService;
 import com.yedam.service.ChargingService;
 import com.yedam.service.MemberService;
@@ -15,6 +16,7 @@ public class ExeApp {
 	SuggestionBoardService sb = new SuggestionBoardService();
 	SugCommentService scom = new SugCommentService();
 	NoticeBoardService nb = new NoticeBoardService();
+	DirectMessageService dm = new DirectMessageService();
 	Scanner sc = new Scanner(System.in);
 	
 	String menu = "";
@@ -45,9 +47,13 @@ public class ExeApp {
 	//로그인 이후 화면(회원)
 	public void loginMenu() {
 		//내 정보 전체 조회 | 게시판 점수 조회 | 비밀번호 수정 | 차량번호 수정
-		System.out.println("====================================================================");
+		System.out.println();
+		System.out.println();
+		System.out.println("==============================================================================");
+		System.out.println();
 		System.out.println("| 1. 회원 정보 | 2. 전기차 충전(회원) | 3. 게시판 | 4. 쪽지함 | 5. 로그아웃 |");
-		System.out.println("====================================================================");
+		System.out.println();
+		System.out.println("==============================================================================");
 		System.out.println("입력>");
 		menu = sc.nextLine();
 		
@@ -67,7 +73,7 @@ public class ExeApp {
 			break;
 		case "4":
 			//쪽지함
-			
+			memMessageMenu();
 			break;
 		case "5":
 			//로그아웃
@@ -79,9 +85,13 @@ public class ExeApp {
 	
 	//로그인 이후 화면(회원) -> 회원 정보
 	public void memberInfo() {
-		System.out.println("=====================================================================================");
+		System.out.println();
+		System.out.println();
+		System.out.println("===============================================================================================");
+		System.out.println();
 		System.out.println("| 1. 회원 정보 조회 |  2. 비밀번호 수정 | 3. 차량번호 수정 | 4. 회원 탈퇴 | 5. 로그인 메인 메뉴  |");
-		System.out.println("=====================================================================================");
+		System.out.println();
+		System.out.println("===============================================================================================");
 		System.out.println("입력>");
 		menu = sc.nextLine();
 		
@@ -108,7 +118,7 @@ public class ExeApp {
 			break;
 		case "5":
 			//로그인 메인 메뉴
-			logoutMenu();
+			loginMenu();
 			break;
 		}
 		
@@ -117,9 +127,13 @@ public class ExeApp {
 	
 	//로그인 이후 화면(관리자)
 	public void adminmenu() {
-		System.out.println("=================================================================================================================");
-		System.out.println("| 1. 전체 회원 조회 | 2. 게시판 점수 조회 | 3. 할인 제외 회원 조회 | 4. 쪽지 보내기 | 5. 회원 강제 탈퇴  | 6. 게시판 | 7. 로그아웃 |  ");
-		System.out.println("=================================================================================================================");
+		System.out.println();
+		System.out.println();
+		System.out.println("===========================================================================================================================");
+		System.out.println();
+		System.out.println("| 1. 전체 회원 조회 | 2. 게시판 점수 조회 | 3. 할인 제외 회원 조회 | 4. 쪽지함 | 5. 회원 강제 탈퇴  | 6. 게시판 | 7. 로그아웃 |  ");
+		System.out.println();
+		System.out.println("===========================================================================================================================");
 		System.out.println("입력>");
 		menu = sc.nextLine();
 		
@@ -140,8 +154,8 @@ public class ExeApp {
 			adminmenu();
 			break;
 		case "4":
-			//쪽지 보내기
-			
+			//쪽지함
+			adminMessageMenu();
 			break;
 		case "5":
 			//회원 강제 탈퇴
@@ -160,11 +174,212 @@ public class ExeApp {
 		
 	}
 	
+	
+	//쪽지함(회원)
+	public void memMessageMenu() {
+		System.out.println();
+		System.out.println();
+		System.out.println("====================================================================");
+		System.out.println();
+		System.out.println("| 1. 쪽지 보내기 | 2. 받은 쪽지함  | 3. 보낸 쪽지함 | 4. 뒤로가기 |");
+		System.out.println();
+		System.out.println("====================================================================");
+		System.out.println("입력>");
+		menu = sc.nextLine();
+		
+		switch(menu) {
+		case "1":
+			//쪽지 보내기
+			dm.sendDM();
+			memMessageMenu();
+			break;
+		case "2":
+			//받은 쪽지함 
+			dm.reciveDMlist();
+			System.out.println();
+			System.out.println("=============================================");
+			System.out.println();
+			System.out.println("| 1. 받은 쪽지함 비우기 | 2. 뒤로 가기 |");
+			System.out.println();
+			System.out.println("=============================================");
+			System.out.println("입력>");
+			menu = sc.nextLine();
+			switch(menu) {
+			case "1":
+				//받은 쪽지함 비우기
+				dm.receiveDelete();
+				memMessageMenu();
+				break;
+			case "2":
+				//뒤로가기 
+				memMessageMenu();
+				break;
+			}
+			
+			break;
+		case "3":
+			//보낸 쪽지함
+			dm.sendDMlist();
+			System.out.println();
+			System.out.println("=============================================");
+			System.out.println();
+			System.out.println("| 1. 보낸 쪽지함 비우기 | 2. 뒤로 가기 |");
+			System.out.println();
+			System.out.println("=============================================");
+			System.out.println("입력>");
+			menu = sc.nextLine();
+			switch(menu) {
+			case "1":
+				//받은 쪽지함 비우기
+				dm.sendDelete();
+				memMessageMenu();
+				break;
+			case "2":
+				//뒤로가기 
+				memMessageMenu();
+				break;
+			}
+			
+			break;
+		case "4":
+			//뒤로가기
+			loginMenu();
+			break;
+		}
+	}
+	
+	
+	//쪽지함(관리자)
+		public void adminMessageMenu() {
+			System.out.println();
+			System.out.println();
+			System.out.println("==========================================================");
+			System.out.println();
+			System.out.println("| 1. 쪽지 보내기 | 2. 받은 쪽지함  | 3. 보낸 쪽지함 | 4. 뒤로가기 |");
+			System.out.println();
+			System.out.println("==========================================================");
+			System.out.println("입력>");
+			menu = sc.nextLine();
+			
+			switch(menu) {
+			case "1":
+				//쪽지 보내기
+				dm.sendDM();
+				adminMessageMenu();
+				break;
+			case "2":
+				//받은 쪽지함 
+				dm.reciveDMlist();
+				System.out.println();
+				System.out.println("====================================");
+				System.out.println();
+				System.out.println("| 1. 받은 쪽지함 비우기 | 2. 뒤로 가기 |");
+				System.out.println();
+				System.out.println("===================================");
+				System.out.println("입력>");
+				menu = sc.nextLine();
+				switch(menu) {
+				case "1":
+					//받은 쪽지함 비우기
+					dm.receiveDelete();
+					adminMessageMenu();
+					break;
+				case "2":
+					//뒤로가기 
+					adminMessageMenu();
+					break;
+				}
+				
+				break;
+			case "3":
+				//보낸 쪽지함
+				dm.sendDMlist();
+				System.out.println();
+				System.out.println("==============================================");
+				System.out.println();
+				System.out.println("| 1. 보낸 쪽지함 비우기 | 2. 뒤로 가기 |");
+				System.out.println();
+				System.out.println("==============================================");
+				System.out.println("입력>");
+				menu = sc.nextLine();
+				switch(menu) {
+				case "1":
+					//받은 쪽지함 비우기
+					dm.sendDelete();
+					adminMessageMenu();
+					break;
+				case "2":
+					//뒤로가기 
+					adminMessageMenu();
+					break;
+				}
+				
+				break;
+			case "4":
+				//뒤로가기
+				adminmenu();
+				break;
+			}
+		}
+	
+		//회원용 공지 게시판 메뉴
+				public void memNoticeBoardMenu() {
+					System.out.println();
+					System.out.println("========================================================================================");
+					System.out.println();
+					System.out.println("| 1. 공지사항 게시글  목록  | 2. 게시글 선택 | 3. 이전 페이지 | 4. 다음 페이지 | 5. 전체 게시판 메뉴  |");
+					System.out.println();
+					System.out.println("========================================================================================");
+					System.out.println("입력>");
+					menu = sc.nextLine();
+					
+					switch(menu) {
+					case "1":
+						//공지사항 게시글 목록
+						nb.listNoticeBoard();
+						memNoticeBoardMenu();
+						break;
+					case "2":
+						//게시글 선택
+						nb.viewNotiBoard() ;
+						memNoticeBoardMenu();
+						break;
+					case "3":
+						//이전 페이지
+						if(sb.page != 1) {
+							sb.page--;
+						}else {
+							System.out.println("첫 페이지입니다.");
+						}
+						nb.listNoticeBoard();
+						memNoticeBoardMenu();
+						break;
+					case "4":
+						//다음 페이지
+						if(sb.page != sb.totalpage) {
+							sb.page++;
+						}else {
+							System.out.println("마지막 페이지입니다.");
+						}
+						nb.listNoticeBoard();
+						memNoticeBoardMenu();
+						break;
+					case "5":
+						//뒤로 가기
+						boardMenu();
+						break;
+					}
+				}
+							
+	
 	//관리자용 게시판 메뉴
 	public void adminBoardMenu() {
-		System.out.println("==========================================================");
-		System.out.println("| 1. 공지사항 게시판 | 2. 건의 게시판  | 3. 신고 게시판 | 4. 뒤로가기 |");
-		System.out.println("==========================================================");
+		System.out.println();
+		System.out.println("========================================================================");
+		System.out.println();
+		System.out.println("| 1. 공지사항 게시판 | 2. 건의 게시판  | 3. 뒤로가기 |");
+		System.out.println();
+		System.out.println("========================================================================");
 		System.out.println("입력>");
 		menu = sc.nextLine();
 		
@@ -178,10 +393,6 @@ public class ExeApp {
 			adminSugBoardMenu();
 			break;
 		case "3":
-			//칭찬 게시판
-			
-			break;
-		case "4":
 			//뒤로가기
 			adminmenu();
 			break;
@@ -190,9 +401,13 @@ public class ExeApp {
 	
 	//관리자용 공지 게시판 메뉴
 		public void adminNoticeBoardMenu() {
-			System.out.println("==========================================================");
-			System.out.println("| 1. 글쓰기  | 2. 공지사항 게시글  목록  | 3. 게시판 메뉴(뒤로 가기)  |");
-			System.out.println("==========================================================");
+			System.out.println();
+			System.out.println();
+			System.out.println("===================================================================");
+			System.out.println();
+			System.out.println("| 1. 글쓰기  | 2. 공지사항 게시글  목록  | 3. 전체 게시판 메뉴  |");
+			System.out.println();
+			System.out.println("===================================================================");
 			System.out.println("입력>");
 			menu = sc.nextLine();
 			
@@ -217,9 +432,13 @@ public class ExeApp {
 		//관리자용 건의 게시판
 		//건의 게시판 메뉴
 		public void adminSugBoardMenu() {
-			System.out.println("==========================================================");
+			System.out.println();
+			System.out.println();
+			System.out.println("====================================================================");
+			System.out.println();
 			System.out.println("| 1. 글쓰기  | 2. 건의 게시글  목록  | 3. 게시판 메뉴(뒤로 가기)  |");
-			System.out.println("==========================================================");
+			System.out.println();
+			System.out.println("====================================================================");
 			System.out.println("입력>");
 			menu = sc.nextLine();
 			
@@ -242,11 +461,15 @@ public class ExeApp {
 		}
 		
 		
-		//건의 게시글 보기
+		//관리자용 건의 게시글 보기
 		public void adminViewSuggestBoard() {
-			System.out.println("==================================================================");
-			System.out.println("| 1. 게시글 선택  | 2. 이전 페이지  | 3. 다음 페이지 | 4. 건의 게시판 메뉴 |");
-			System.out.println("==================================================================");
+			System.out.println();
+			System.out.println();
+			System.out.println("=====================================================================");
+			System.out.println();
+			System.out.println("| 1. 게시글 선택  | 2. 건의 게시판 메뉴 | 3. 이전 페이지 | 4. 다음 페이지 |");
+			System.out.println();
+			System.out.println("=====================================================================");
 			System.out.println("입력>");
 			menu = sc.nextLine();
 			
@@ -258,24 +481,41 @@ public class ExeApp {
 				adminSuggestCommentMenu();			
 				break;
 			case "2":
-				//이전 페이지
-				
-				break;
-			case "3":
-				//다음 페이지
-				
-				break;
-			case "4":
 				//뒤로가기
 				adminSugBoardMenu();
+				break;
+			case "3":
+				//이전 페이지
+				//뒤로
+				if(sb.page != 1) {
+					sb.page--;
+				}else {
+					System.out.println("첫 페이지입니다.");
+				}
+				sb.listSuggestBoard();
+				adminViewSuggestBoard();
+				break;
+			case "4":
+				//다음 페이지
+				if(sb.page != sb.totalpage) {
+					sb.page++;
+				}else {
+					System.out.println("마지막 페이지입니다.");
+				}
+				sb.listSuggestBoard();
+				adminViewSuggestBoard();
 				break;
 			}
 		}
 		
 		public void adminSuggestCommentMenu() {
-			System.out.println("======================================================");
+			System.out.println();
+			System.out.println();
+			System.out.println("================================================================");
+			System.out.println();
 			System.out.println("| 1. 댓글 입력 | 2. 댓글 삭제 | 3. 게시글 삭제  | 6. 뒤로 가기 |");
-			System.out.println("======================================================");
+			System.out.println();
+			System.out.println("================================================================");
 			System.out.println("입력>");
 			menu = sc.nextLine();
 			
@@ -310,11 +550,15 @@ public class ExeApp {
 			}
 		}
 		
-		//건의 게시글 보기
+		//관리자용 건의 게시글 보기
 		public void viewNoticeBoard() {
-			System.out.println("==============================================================================================");
-			System.out.println("| 1. 게시글 선택  | 2. 이전 페이지  | 3. 다음 페이지 | 4. 게시글 수정  | 5. 게시글 삭제 | 6. 공지사항 게시판 메뉴 |");
-			System.out.println("==============================================================================================");
+			System.out.println();
+			System.out.println();
+			System.out.println("=============================================================================================================");
+			System.out.println();
+			System.out.println("| 1. 게시글 선택 | 2. 게시글 수정  | 3. 게시글 삭제 | 4. 이전 페이지 | 5. 다음 페이지 | 6. 공지사항 게시글 목록으로 돌아가기 |");
+			System.out.println();
+			System.out.println("=============================================================================================================");
 			System.out.println("입력>");
 			menu = sc.nextLine();
 			
@@ -325,24 +569,36 @@ public class ExeApp {
 				viewNoticeBoard();
 				break;
 			case "2":
-				//이전 페이지
-				
-				break;
-			case "3":
-				//다음 페이지
-				
-				break;
-			case "4":
 				//게시글 수정
 				nb.modifyNoticeBoard();
 				nb.viewNotiBoard2();
 				viewNoticeBoard();
 				break;
-			case "5":
+			case "3":
 				//게시글 삭제
 				nb.deleteNotiBoard();
 				nb.viewNotiBoard2();
 				viewNoticeBoard();
+				break;
+			case "4":
+				//이전 페이지
+				if(sb.page != 1) {
+					sb.page--;
+				}else {
+					System.out.println("첫 페이지입니다.");
+				}
+				nb.listNoticeBoard();
+				viewNoticeBoard() ;
+				break;
+			case "5":
+				//다음 페이지
+				if(sb.page != sb.totalpage) {
+					sb.page++;
+				}else {
+					System.out.println("마지막 페이지입니다.");
+				}
+				nb.listNoticeBoard();
+				viewNoticeBoard() ;
 				break;
 			case "6":
 				//뒤로가기
@@ -354,7 +610,13 @@ public class ExeApp {
 	
 	public void logoutMenu() {
 		//| 1. 로그인 | 2.회원가입 | 3.전기차 충전 |
+		System.out.println();
+		System.out.println();
+		System.out.println("=====================================================================");
+		System.out.println();
 		System.out.println("| 1. 로그인 | 2.회원가입 | 3.전기차 충전(비회원) | 4. 프로그램 종료 |");
+		System.out.println();
+		System.out.println("=====================================================================");
 		System.out.println("입력>");
 		menu = sc.nextLine();
 		
@@ -381,9 +643,13 @@ public class ExeApp {
 	
 	//비회원 전기차 충전
 	public void chargingMenu() {
-		System.out.println("============================================================");
+		System.out.println();
+		System.out.println();
+		System.out.println("======================================================================");
+		System.out.println();
 		System.out.println("| 1. 빈자리 조회 | 2. 충전 등록 | 3. 결제 및 등록해제 | 4. 초기화면 |");
-		System.out.println("============================================================");
+		System.out.println();
+		System.out.println("======================================================================");
 		System.out.println("입력>");
 		menu = sc.nextLine();
 		
@@ -412,9 +678,13 @@ public class ExeApp {
 	
 	//로그인 이후 화면(회원) -> 전기차 충전
 	public void memberChargingMenu() {
-		System.out.println("============================================================");
+		System.out.println();
+		System.out.println();
+		System.out.println("======================================================================");
+		System.out.println();
 		System.out.println("| 1. 빈자리 조회 | 2. 충전 등록 | 3. 결제 및 등록해제 | 4. 초기화면 |");
-		System.out.println("============================================================");
+		System.out.println();
+		System.out.println("======================================================================");
 		System.out.println("입력>");
 		menu = sc.nextLine();
 		
@@ -437,23 +707,27 @@ public class ExeApp {
 			break;
 		case "4":
 			//초기화면
-			logoutMenu();
+			loginMenu();
 			break;
 		}
 	}
 	
 	//로그인 이후 화면(회원) -> 게시판 선택 메뉴
 	public void boardMenu() {
-		System.out.println("==========================================================");
-		System.out.println("| 1. 공지사항 게시판 | 2. 건의 게시판  | 3. 신고 게시판 | 4. 뒤로가기 |");
-		System.out.println("==========================================================");
+		System.out.println();
+		System.out.println();
+		System.out.println("=============================================================================");
+		System.out.println();
+		System.out.println("| 1. 공지사항 게시판 | 2. 건의 게시판  | 3. 빌런 저격하러 가기 | 4. 뒤로가기 |");
+		System.out.println();
+		System.out.println("============================================================================");
 		System.out.println("입력>");
 		menu = sc.nextLine();
 		
 		switch(menu) {
 		case "1":
 			//공지사항 게시판
-			
+			memNoticeBoardMenu();
 			break;
 		case "2":
 			//건의 게시판 메뉴로 이동
@@ -461,8 +735,9 @@ public class ExeApp {
 			boardMenu();
 			break;
 		case "3":
-			//칭찬 게시판
-			
+			//빌런 저격하러 가기
+			ms.snipeVillein();
+			boardMenu();
 			break;
 		case "4":
 			//뒤로가기
@@ -473,9 +748,13 @@ public class ExeApp {
 	
 	//건의 게시판 메뉴
 	public void sugBoardMenu() {
-		System.out.println("==========================================================");
+		System.out.println();
+		System.out.println();
+		System.out.println("====================================================================");
+		System.out.println();
 		System.out.println("| 1. 글쓰기  | 2. 건의 게시글  목록  | 3. 게시판 메뉴(뒤로 가기)  |");
-		System.out.println("==========================================================");
+		System.out.println();
+		System.out.println("====================================================================");
 		System.out.println("입력>");
 		menu = sc.nextLine();
 		
@@ -500,9 +779,13 @@ public class ExeApp {
 	
 	//건의 게시글 보기
 	public void viewSuggestBoard() {
-		System.out.println("==================================================================");
-		System.out.println("| 1. 게시글 선택  | 2. 이전 페이지  | 3. 다음 페이지 | 4. 건의 게시판 메뉴 |");
-		System.out.println("==================================================================");
+		System.out.println();
+		System.out.println();
+		System.out.println("==========================================================================");
+		System.out.println();
+		System.out.println("| 1. 게시글 선택  | 2. 건의 게시글 목록으로 돌아가기 | 3. 이전 페이지 | 4. 다음 페이지 |");
+		System.out.println();
+		System.out.println("==========================================================================");
 		System.out.println("입력>");
 		menu = sc.nextLine();
 		
@@ -514,24 +797,44 @@ public class ExeApp {
 			SuggestCommentMenu();			
 			break;
 		case "2":
-			//이전 페이지
-			
-			break;
-		case "3":
-			//다음 페이지
-			
-			break;
-		case "4":
 			//뒤로가기
 			sugBoardMenu();
 			break;
+		case "3":
+			//이전 페이지
+			if(sb.page != 1) {
+				sb.page--;
+			}else {
+				System.out.println("첫 페이지입니다.");
+			}
+			sb.listSuggestBoard();
+			viewSuggestBoard();
+			break;
+		case "4":
+			//다음 페이지
+			if(sb.page != sb.totalpage) {
+				sb.page++;
+			}else {
+				System.out.println("마지막 페이지입니다.");
+			}
+			sb.listSuggestBoard();
+			viewSuggestBoard();
+			break;
 		}
 	}
+	
+	
+	//page++;
+	//listSuggestBoard();
 	//댓글 (회원)
 	public void SuggestCommentMenu() {
-		System.out.println("======================================================================================");
+		System.out.println();
+		System.out.println();
+		System.out.println("================================================================================================");
+		System.out.println();
 		System.out.println("| 1. 댓글 입력  | 2. 댓글 수정  | 3. 댓글 삭제 | 4. 게시글 수정  | 5. 게시글 삭제  | 6. 뒤로 가기 |");
-		System.out.println("======================================================================================");
+		System.out.println();
+		System.out.println("================================================================================================");
 		System.out.println("입력>");
 		menu = sc.nextLine();
 		

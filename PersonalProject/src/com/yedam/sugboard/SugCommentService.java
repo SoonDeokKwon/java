@@ -16,7 +16,7 @@ public class SugCommentService {
 		List<SugComment> list = SugCommentDAO.getInstance().listSugComment(SuggestionBoardService.inputNo);
 		System.out.println("<댓글>");
 		for(int i=0; i< list.size(); i++){
-			System.out.println(list.get(i).getSugCommentId() + "번" + "(" + list.get(i).getMemberName() + ")" + list.get(i).getSugComment());
+			System.out.println(list.get(i).getSugCommentId() + "번" + "   ㄴ(" + list.get(i).getMemberName() + ")" + list.get(i).getSugComment());
 			System.out.println("──────────────────────────────────────────────────────────────────────");
 		}
 	}

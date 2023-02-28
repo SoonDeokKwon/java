@@ -10,61 +10,22 @@ public class ChargingService {
 	
 	//빈자리 조회 
 	public void emptyCheck() {
-		
 		List<ChargingStation>list = ChargingStationDAO.getInstance().emptyCheck();
-		
-		
-	
-		System.out.println("==========빈자리 조회==========");
-		
+		System.out.println("===============================사용중인 자리 조회===============================");
+		System.out.print("현재 사용중인 자리는 ");
 		for(int i=0; i<list.size(); i++) {
 			
-			System.out.println(list.get(i).getLocationId());
-//			switch(check) {
-//				case "1":
-//					//1번 자리 충전중
-//					System.out.println("1번 충전중");
-//					break;
-//				case "2":
-//					//2번 자리 충전중
-//					System.out.println("2번 충전중");
-//					break;
-//				case "3":
-//					//3번 자리 충전중
-//					System.out.println("3번 충전중");
-//					break;
-//				case "4":
-//					//4번 자리 충전중
-//					System.out.println("4번 충전중");
-//					break;
-//				case "5":
-//					//5번 자리 충전중
-//					System.out.println("5번 충전중");
-//					break;
-//				case "6":
-//					//6번 자리 충전중
-//					System.out.println("6번 충전중");
-//					break;
-//				case "7":
-//					//7번 자리 충전중
-//					System.out.println("7번 충전중");
-//					break;
-//				case "8":
-//					//8번 자리 충전중
-//					System.out.println("8번");
-//					break;
-//				default:
-//					System.out.println("충전중인 차량 없음");
-//				}
-			}
+			System.out.print(list.get(i).getLocationId() + "번 ");
 
+			}
+		System.out.println("입니다!");
 			
 	}
 	
 	
 	//비회원 충전 등록 
 	public void regisCharging() {
-		System.out.println("==============충전 등록================");
+		System.out.println("======================충전 등록========================");
 		System.out.println("충전할 자리 번호>");
 		int locationNO = Integer.parseInt(sc.nextLine());
 		System.out.println("차량 번호>");
@@ -152,6 +113,7 @@ public class ChargingService {
 	
 	//회원 결제
 	public void memPayCharging() {
+		System.out.println("충전 결제를 도와드리겠습니다. 충전하신 자리의 번호를 입력해주세요.");
 		System.out.println("충전 자리 번호>");
 		int locationNo = Integer.parseInt(sc.nextLine());
 	
@@ -170,7 +132,7 @@ public class ChargingService {
 	
 	//충전 등록 해제
 	public void deletCharging () {
-		System.out.println("충전 등록 해제를 도와드리겠습니다.");
+		System.out.println("충전 등록 해제를 도와드리겠습니다. 충전하신 자리의 번호를 입력해주세요.");
 		System.out.println("충전 자리 번호>");
 		int result = ChargingStationDAO.getInstance().deletCharging(Integer.parseInt(sc.nextLine()));
 		

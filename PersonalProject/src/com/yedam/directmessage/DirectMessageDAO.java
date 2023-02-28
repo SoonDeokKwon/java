@@ -50,16 +50,15 @@ public class DirectMessageDAO extends DAO{
 		
 		try {
 			conn();
-			String sql = "DELETE FROM direct_message\r\n"
-					+ "WHERE receiver_id =? ";
+			String sql = "SELECT *\r\n"
+					+ "FROM direct_message\r\n"
+					+ "WHERE receiver_id =  ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, receiver );
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				DM = new DirectMessage();
-				DM.setReceiverId(rs.getString("receiver_id"));
-				DM.setReceiverName(rs.getString("receiver_name"));
 				DM.setSenderId(rs.getString("sender_id"));
 				DM.setSenderName(rs.getString("sender_name"));
 				DM.setDmContents(rs.getString("dm_contents"));
@@ -104,8 +103,9 @@ public class DirectMessageDAO extends DAO{
 		
 		try {
 			conn();
-			String sql = "DELETE FROM direct_message\r\n"
-					+ "WHERE sender_id =? ";
+			String sql = "SELECT *\r\n"
+					+ "FROM direct_message\r\n"
+					+ "WHERE sender_id = ? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, sender );
 			rs = pstmt.executeQuery();
@@ -114,8 +114,6 @@ public class DirectMessageDAO extends DAO{
 				DM = new DirectMessage();
 				DM.setReceiverId(rs.getString("receiver_id"));
 				DM.setReceiverName(rs.getString("receiver_name"));
-				DM.setSenderId(rs.getString("sender_id"));
-				DM.setSenderName(rs.getString("sender_name"));
 				DM.setDmContents(rs.getString("dm_contents"));
 				DM.setDmDate(rs.getDate("dm_date"));
 				list.add(DM);
