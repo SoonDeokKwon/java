@@ -189,7 +189,9 @@ public class ExeApp {
 		
 		switch(menu) {
 		case "1":
+			//회원 아이디·이름 목록 보여주기
 			//쪽지 보내기
+			ms.getMemberIdNameList();
 			dm.sendDM();
 			memMessageMenu();
 			break;
@@ -263,7 +265,9 @@ public class ExeApp {
 			
 			switch(menu) {
 			case "1":
+				//회원 아이디·이름 목록 보여주기
 				//쪽지 보내기
+				ms.getMemberIdNameList();
 				dm.sendDM();
 				adminMessageMenu();
 				break;
@@ -327,7 +331,7 @@ public class ExeApp {
 					System.out.println();
 					System.out.println("========================================================================================");
 					System.out.println();
-					System.out.println("| 1. 공지사항 게시글  목록  | 2. 게시글 선택 | 3. 이전 페이지 | 4. 다음 페이지 | 5. 전체 게시판 메뉴  |");
+					System.out.println("| 1. 게시글 선택 | 2. 이전 페이지 | 3. 다음 페이지 | 4. 전체 게시판 메뉴  |");
 					System.out.println();
 					System.out.println("========================================================================================");
 					System.out.println("입력>");
@@ -335,16 +339,12 @@ public class ExeApp {
 					
 					switch(menu) {
 					case "1":
-						//공지사항 게시글 목록
+						//게시글 선택
+						nb.viewNotiBoard() ;
 						nb.listNoticeBoard();
 						memNoticeBoardMenu();
 						break;
 					case "2":
-						//게시글 선택
-						nb.viewNotiBoard() ;
-						memNoticeBoardMenu();
-						break;
-					case "3":
 						//이전 페이지
 						if(sb.page != 1) {
 							sb.page--;
@@ -354,7 +354,7 @@ public class ExeApp {
 						nb.listNoticeBoard();
 						memNoticeBoardMenu();
 						break;
-					case "4":
+					case "3":
 						//다음 페이지
 						if(sb.page != sb.totalpage) {
 							sb.page++;
@@ -364,7 +364,7 @@ public class ExeApp {
 						nb.listNoticeBoard();
 						memNoticeBoardMenu();
 						break;
-					case "5":
+					case "4":
 						//뒤로 가기
 						boardMenu();
 						break;
@@ -657,10 +657,12 @@ public class ExeApp {
 		case "1":
 			//빈자리 조회
 			cs.emptyCheck();
+			chargingMenu();
 			break;
 		case "2":
 			//충전 등록
 			cs.regisCharging();
+			chargingMenu();
 			break;
 		case "3":
 			//결제
@@ -727,6 +729,7 @@ public class ExeApp {
 		switch(menu) {
 		case "1":
 			//공지사항 게시판
+			nb.listNoticeBoard();
 			memNoticeBoardMenu();
 			break;
 		case "2":

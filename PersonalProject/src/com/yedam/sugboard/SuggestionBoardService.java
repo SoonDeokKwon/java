@@ -44,13 +44,13 @@ public class SuggestionBoardService {
 			if(page != totalpage) {
 				for(int j = page*10-10;  j < page*10; j++) {
 					System.out.println("============================================================");
-					System.out.println(list.get(j).getSugBoardId() + "번 \t" + "작성자:" + list.get(j).getMemberName() + "\t" + list.get(j).getSugSubject() );
+					System.out.println(list.get(j).getSugBoardId() + "번   \t" + "작성자: " + list.get(j).getMemberName() + "  \t" + list.get(j).getSugSubject() );
 
 				}
 			}else if(page == totalpage) {
 				for(int j = page*10-10;  j< (page-1)*10+ list.size()%10  ; j++) {
 					System.out.println("============================================================");
-					System.out.println(list.get(j).getSugBoardId() + "번 \t" + "작성자:" + list.get(j).getMemberName() + "\t" + list.get(j).getSugSubject() );
+					System.out.println(list.get(j).getSugBoardId() + "번   \t" + "작성자: " + list.get(j).getMemberName() + "  \t" + list.get(j).getSugSubject() );
 				}
 			}
 			System.out.println("==========================  "+ page + "page" +"  ==========================");

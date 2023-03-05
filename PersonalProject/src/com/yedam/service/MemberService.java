@@ -199,5 +199,17 @@ public class MemberService {
 		}
 	}
 	
+	//전체 회원 아이디, 이름 조회
+	public void getMemberIdNameList() {
+		List<Member> list  = MemberDAO.getInstance().getMemberIdNameList();
+		System.out.println("<회원 아이디·이름 목록>");
+		for(int i=0; i < list.size(); i++) {
+			System.out.println("회원 ID : " + list.get(i).getMemberId());
+			System.out.println("회원이름 : " + list.get(i).getMemberName());
+			System.out.println("───────────────────────────────────────────────────────────────");
+		}
+		System.out.println("쪽지를 보낼 사람을 목록에서 확인하신 후 받을 사람 ID 및 이름을 입력해주세요.");
+	}
+	
 
 }

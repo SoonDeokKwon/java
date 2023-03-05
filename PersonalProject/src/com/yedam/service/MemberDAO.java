@@ -336,5 +336,35 @@ public class MemberDAO extends DAO{
 	}
 	
 	
+	//전체 회원 아이디, 이름 조회
+	public List<Member> getMemberIdNameList(){
+		List<Member> list = new ArrayList<>();
+		Member mem = null;
+		
+		try {
+			conn();
+			String sql = "SELECT member_id, member_name\n"
+					+ "FROM user_info\n"
+					+ "ORDER BY member_id";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				mem = new Member();
+				mem.setMemberId(rs.getString("member_id"));
+				mem.setMemberName(rs.getString("member_name"));
+				
+				list.add(mem);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			disconn();
+		}
+		return list;
+	}
+	
 	
 }
